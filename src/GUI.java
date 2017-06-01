@@ -11,9 +11,11 @@ import static java.awt.Color.DARK_GRAY;
 public class GUI extends JFrame implements ActionListener,MouseListener{
 JLabel field;
 double xInput,yInput;
+JLabel filepath;
 JButton reset;
 JLabel feedback;
 JLabel angInput;
+JLabel totalWaypoints;
 JButton export;
 JButton addWaypoint;
 JTextArea angleInput;
@@ -31,6 +33,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
          field = new JLabel(icon);
          angInput = new JLabel("Angle in degrees: ");
          feedback = new JLabel();
+         totalWaypoints = new JLabel("Total Waypoints: 0");
          export = new JButton("To text file!");
          reset = new JButton("Reset");
          addWaypoint = new JButton("Add Waypoint");
@@ -43,6 +46,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         add(angInput);
         add(reset);
         add(angleInput);
+        add(totalWaypoints);
         add(feedback);
         add(addWaypoint);
         add(export);
@@ -64,6 +68,8 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         layout.putConstraint(SpringLayout.NORTH, angInput, -25, SpringLayout.NORTH, angleInput);
         layout.putConstraint(SpringLayout.WEST, export,1490 +15,SpringLayout.WEST, field);
         layout.putConstraint(SpringLayout.NORTH, export, 35, SpringLayout.NORTH, addWaypoint);
+        layout.putConstraint(SpringLayout.WEST, totalWaypoints,1490 +15,SpringLayout.WEST, field);
+        layout.putConstraint(SpringLayout.NORTH, totalWaypoints, 35, SpringLayout.NORTH, export);
 
 
 
@@ -117,6 +123,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         if(evt.getSource()==reset){
         test.Waypoints.clear();
         test.Segments.clear();
+        totalWaypoints.setText("Total waypoints: "+ test.Waypoints.size());
         repaint();
     }
         if(evt.getSource()==export){
@@ -129,8 +136,8 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
 
         if(evt.getSource() == addWaypoint){
             test.Waypoints.add(new Waypoint((double)(xInput),(double)(yInput),-Math.toRadians(Double.parseDouble(angleInput.getText()))));
-            angleInput.setText(Integer.toString(test.Segments.size()));
             feedback.setText("<html>Added Waypoint!<br>Click next waypoint location.</html>");
+            totalWaypoints.setText("Total waypoints: "+ test.Waypoints.size());
             test.Segments.clear();
             test.Generate();
             if(test.Segments.size() >= 1){
