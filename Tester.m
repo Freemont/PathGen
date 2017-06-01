@@ -1,12 +1,13 @@
-filename = 'topkek.txt';
+filename = 'Path1.txt';
 
 clf('reset')
 delimiterIn = ',';
-headerlinesIn = 1;
+headerlinesIn = 0;
 
 A = importdata(filename,delimiterIn,headerlinesIn);
-plot(A.data(1:1:length(A.data),1),A.data(1:1:length(A.data),2));
+b= 13;
+plot(A(1:1:length(A),1),A(1:1:length(A),2));
 hold on;
-plot(A.data(1:1:length(A.data),3),A.data(1:1:length(A.data),4));
+plot(A(1:1:length(A),3),A(1:1:length(A),4));
 hold on;
-plot(A.data(1:1:length(A.data),5),A.data(1:1:length(A.data),6));
+plot(A(1:1:length(A),5),A(1:1:length(A),6));
