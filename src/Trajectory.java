@@ -78,7 +78,9 @@ public class Trajectory {
                         writer.print(",");
                         writer.print(IntegralLeft);
                         writer.print(",");
-                       writer.println(IntegralRight);
+                       writer.print(IntegralRight);
+                       writer.print(",");
+                       writer.println(Segments.get(scount).calculateHeading(t));
                         Integral = 0;
 
 

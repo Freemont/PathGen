@@ -2,7 +2,7 @@
  * Created by Florent Astié on 5/31/2017.
  */
 public class Segment {
-    Waypoint a,b;
+    Waypoint a, b;
     double csize = 1.0; //set the derivative to be greater or smaller yields larger / smaller curve radii
     int t = 0;
     int tnot = 1;//dont touch this unless you know what you're doing
@@ -13,13 +13,14 @@ public class Segment {
     double dy[][] = new double[4][1];
     double size;
 
-    public Segment(Waypoint start, Waypoint finish,double wheelbase){
-     a = start;
-     b = finish;
-     size = wheelbase;
-     calculateCenterSpline();
+    public Segment(Waypoint start, Waypoint finish, double wheelbase) {
+        a = start;
+        b = finish;
+        size = wheelbase;
+        calculateCenterSpline();
     }
-    public Segment(Waypoint start, Waypoint finish, double CurveSize, double Wheelbase){
+
+    public Segment(Waypoint start, Waypoint finish, double CurveSize, double Wheelbase) {
         a = start;
         b = finish;
         csize = CurveSize;
@@ -27,40 +28,53 @@ public class Segment {
         calculateCenterSpline();
     }
 
-    void calculateCenterSpline(){
-    double XcontrolMatrix[][] = {{Math.pow(t,3) ,Math.pow(t,2) ,t, 1},{Math.pow(tnot,3), Math.pow(tnot,2),tnot,1},{3*Math.pow(t,2),2*t,1,0},{3*Math.pow(tnot,2),2*tnot,1,0}};
-    double XsolutionMatrix[][] = {{a.getX()},{b.getX()},{angleToDx(a)},{angleToDx(b)}};
-    double Xinvert[][] = MatrixMath.invert(XcontrolMatrix);
-     CoeffX = MatrixMath.multiplyByMatrix(Xinvert,XsolutionMatrix);
-    double YcontrolMatrix[][] = {{Math.pow(t,3) ,Math.pow(t,2) ,t, 1},{Math.pow(tnot,3), Math.pow(tnot,2),tnot,1},{3*Math.pow(t,2),2*t,1,0},{3*Math.pow(tnot,2),2*tnot,1,0}};
-    double YsolutionMatrix[][] = {{a.getY()},{b.getY()},{angleToDy(a)},{angleToDy(b)}};
-     double Yinvert[][] = MatrixMath.invert(YcontrolMatrix);
-     CoeffY = MatrixMath.multiplyByMatrix(Yinvert,YsolutionMatrix);
-     differentiate(CoeffX,dx);
-     differentiate(CoeffY,dy);
+    void calculateCenterSpline() {
+        double XcontrolMatrix[][] = {{Math.pow(t, 3), Math.pow(t, 2), t, 1}, {Math.pow(tnot, 3), Math.pow(tnot, 2), tnot, 1}, {3 * Math.pow(t, 2), 2 * t, 1, 0}, {3 * Math.pow(tnot, 2), 2 * tnot, 1, 0}};
+        double XsolutionMatrix[][] = {{a.getX()}, {b.getX()}, {angleToDx(a)}, {angleToDx(b)}};
+        double Xinvert[][] = MatrixMath.invert(XcontrolMatrix);
+        CoeffX = MatrixMath.multiplyByMatrix(Xinvert, XsolutionMatrix);
+        double YcontrolMatrix[][] = {{Math.pow(t, 3), Math.pow(t, 2), t, 1}, {Math.pow(tnot, 3), Math.pow(tnot, 2), tnot, 1}, {3 * Math.pow(t, 2), 2 * t, 1, 0}, {3 * Math.pow(tnot, 2), 2 * tnot, 1, 0}};
+        double YsolutionMatrix[][] = {{a.getY()}, {b.getY()}, {angleToDy(a)}, {angleToDy(b)}};
+        double Yinvert[][] = MatrixMath.invert(YcontrolMatrix);
+        CoeffY = MatrixMath.multiplyByMatrix(Yinvert, YsolutionMatrix);
+        differentiate(CoeffX, dx);
+        differentiate(CoeffY, dy);
     }
 
-//Segments are calculated with a parameter of t from 0 to 1. xC is the x coefficients and yC is the y coefficients (of the 3rd degree spline)
-    double calculateRightSplinePositionX(double time){
+    //Segments are calculated with a parameter of t from 0 to 1. xC is the x coefficients and yC is the y coefficients (of the 3rd degree spline)
+    double calculateRightSplinePositionX(double time) {
 
-        return evaluateCubic(CoeffX,time) + size / 2.0 * evaluateQuadratic(dy,time) / Math.sqrt(Math.pow(evaluateQuadratic(dx,time),2) + Math.pow(evaluateQuadratic(dy,time),2));
-    }
-    double calculateRightSplinePositionY(double time){
-        return evaluateCubic(CoeffY,time) - size / 2.0 * evaluateQuadratic(dx,time) / Math.sqrt(Math.pow(evaluateQuadratic(dx,time),2) + Math.pow(evaluateQuadratic(dy,time),2));    }
-    double calculateLeftSplinePositionX(double time){
-        return evaluateCubic(CoeffX,time) - size / 2.0 * evaluateQuadratic(dy,time) / Math.sqrt(Math.pow(evaluateQuadratic(dx,time),2) + Math.pow(evaluateQuadratic(dy,time),2));
-    }
-    double calculateLeftSplinePositionY(double time){
-        return evaluateCubic(CoeffY,time) + size / 2.0 * evaluateQuadratic(dx,time) / Math.sqrt(Math.pow(evaluateQuadratic(dx,time),2) + Math.pow(evaluateQuadratic(dy,time),2));
-
-    }
-    double calculateCenterPositionX(double time){
-        return evaluateCubic(CoeffX,time);
+        return evaluateCubic(CoeffX, time) + size / 2.0 * evaluateQuadratic(dy, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
     }
 
-    double calculateCenterPositionY(double time){
-        return evaluateCubic(CoeffY,time);
+    double calculateRightSplinePositionY(double time) {
+        return evaluateCubic(CoeffY, time) - size / 2.0 * evaluateQuadratic(dx, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
     }
+
+    double calculateLeftSplinePositionX(double time) {
+        return evaluateCubic(CoeffX, time) - size / 2.0 * evaluateQuadratic(dy, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+    }
+
+    double calculateLeftSplinePositionY(double time) {
+        return evaluateCubic(CoeffY, time) + size / 2.0 * evaluateQuadratic(dx, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+
+    }
+
+    double calculateCenterPositionX(double time) {
+        return evaluateCubic(CoeffX, time);
+    }
+
+    double calculateCenterPositionY(double time) {
+        return evaluateCubic(CoeffY, time);
+    }
+
+    double calculateHeading(double time) {
+
+
+    double deltaX = calculateLeftSplinePositionX(time) - calculateRightSplinePositionX(time);
+    double deltaY = calculateLeftSplinePositionY(time) - calculateRightSplinePositionY(time);
+    return  Math.atan2(deltaY,deltaX) * 180 / Math.PI -90;
+}
     //@param The waypoint specified MUST be either the start or finish waypoint for this segment
     double angleToDx(Waypoint waypoint){
         return csize* Math.cos(waypoint.getTheta()) * Math.sqrt((Math.pow(b.getX() - a.getX() ,2)+Math.pow(b.getY() - a.getY(),2)));
