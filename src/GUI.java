@@ -10,6 +10,7 @@ import static java.awt.Color.DARK_GRAY;
 
 public class GUI extends JFrame implements ActionListener,MouseListener{
 JLabel field;
+JTextArea filein;
 double xInput,yInput;
 JLabel filepath;
 JButton reset;
@@ -33,6 +34,8 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
          field = new JLabel(icon);
          angInput = new JLabel("Angle in degrees: ");
          feedback = new JLabel();
+         filein = new JTextArea(1,10);
+         filepath = new JLabel("Target filename: ");
          totalWaypoints = new JLabel("Total Waypoints: 0");
          export = new JButton("To text file!");
          reset = new JButton("Reset");
@@ -41,7 +44,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         reset.setVisible(true);
 
         field.setBounds(0, 0, 1490, 740);
-
+        add(filepath);
         add(field);
         add(angInput);
         add(reset);
@@ -49,6 +52,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         add(totalWaypoints);
         add(feedback);
         add(addWaypoint);
+        add(filein);
         add(export);
         export.addActionListener(this);
         reset.addActionListener(this);
@@ -70,6 +74,11 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         layout.putConstraint(SpringLayout.NORTH, export, 35, SpringLayout.NORTH, addWaypoint);
         layout.putConstraint(SpringLayout.WEST, totalWaypoints,1490 +15,SpringLayout.WEST, field);
         layout.putConstraint(SpringLayout.NORTH, totalWaypoints, 35, SpringLayout.NORTH, export);
+        layout.putConstraint(SpringLayout.WEST, filepath,1490 +15,SpringLayout.WEST, field);
+        layout.putConstraint(SpringLayout.NORTH, filepath, 20, SpringLayout.NORTH, totalWaypoints);
+        layout.putConstraint(SpringLayout.WEST, filein,1490 +15,SpringLayout.WEST, field);
+        layout.putConstraint(SpringLayout.NORTH, filein, 15, SpringLayout.NORTH, filepath);
+
 
 
 
@@ -127,7 +136,10 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         repaint();
     }
         if(evt.getSource()==export){
+            test.Filename = filein.getText() + ".txt";
+
            test.toTextFile();
+            filein.setText("");
            feedback.setText("Wrote path to text file.");
            test.Waypoints.clear();
            test.Segments.clear();
