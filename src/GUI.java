@@ -14,6 +14,7 @@ double xInput,yInput;
 JButton reset;
 JLabel feedback;
 JLabel angInput;
+JButton export;
 JButton addWaypoint;
 JTextArea angleInput;
 double pixelsPerInchY = 740 / 12.0 / 27;
@@ -30,6 +31,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
          field = new JLabel(icon);
          angInput = new JLabel("Angle in degrees: ");
          feedback = new JLabel();
+         export = new JButton("To text file!");
          reset = new JButton("Reset");
          addWaypoint = new JButton("Add Waypoint");
          angleInput = new JTextArea(1,5);
@@ -43,6 +45,8 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         add(angleInput);
         add(feedback);
         add(addWaypoint);
+        add(export);
+        export.addActionListener(this);
         reset.addActionListener(this);
         addWaypoint.addActionListener(this);
         field.addMouseListener(this);
@@ -58,6 +62,8 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         layout.putConstraint(SpringLayout.NORTH, addWaypoint, 5, SpringLayout.SOUTH, reset);
         layout.putConstraint(SpringLayout.WEST, angInput,1490 +15,SpringLayout.WEST, field);
         layout.putConstraint(SpringLayout.NORTH, angInput, -25, SpringLayout.NORTH, angleInput);
+        layout.putConstraint(SpringLayout.WEST, export,1490 +15,SpringLayout.WEST, field);
+        layout.putConstraint(SpringLayout.NORTH, export, 35, SpringLayout.NORTH, addWaypoint);
 
 
 
@@ -109,10 +115,18 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
     public void actionPerformed( ActionEvent evt)
     {
         if(evt.getSource()==reset){
+        test.Waypoints.clear();
+        test.Segments.clear();
+        repaint();
+    }
+        if(evt.getSource()==export){
+           test.toTextFile();
+           feedback.setText("Wrote path to text file.");
            test.Waypoints.clear();
            test.Segments.clear();
            repaint();
         }
+
         if(evt.getSource() == addWaypoint){
             test.Waypoints.add(new Waypoint((double)(xInput),(double)(yInput),-Math.toRadians(Double.parseDouble(angleInput.getText()))));
             angleInput.setText(Integer.toString(test.Segments.size()));
