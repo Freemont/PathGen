@@ -115,8 +115,9 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         }
         if(evt.getSource() == addWaypoint){
             test.Waypoints.add(new Waypoint((double)(xInput),(double)(yInput),-Math.toRadians(Double.parseDouble(angleInput.getText()))));
-            angleInput.setText(Integer.toString(test.Waypoints.size()));
+            angleInput.setText(Integer.toString(test.Segments.size()));
             feedback.setText("<html>Added Waypoint!<br>Click next waypoint location.</html>");
+            test.Segments.clear();
             test.Generate();
             if(test.Segments.size() >= 1){
 

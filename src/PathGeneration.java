@@ -18,6 +18,8 @@ public class PathGeneration {
         ControlPolygon.add(new Waypoint(10,10,-Math.PI/2.25));
         ControlPolygon.add(new Waypoint(8,3,Math.PI));
         ControlPolygon.add(new Waypoint(2,10,Math.PI / 2));
+        ControlPolygon.add(new Waypoint(10,10,0));
+        ControlPolygon.add(new Waypoint(5,5,-Math.PI/4));
         Trajectory t1 = new Trajectory(0.5,ControlPolygon,3,10,"topkek.txt",0.05);
         t1.Generate();
         t1.toTextFile();
