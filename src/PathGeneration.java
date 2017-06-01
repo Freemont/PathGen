@@ -10,7 +10,7 @@ public class PathGeneration {
     //NOTE: MaxVel is the maximum velocity of the center of the robot.
     //Individual wheels may move faster than this max vel.
 //Units per second don't matter for maxvel, have to be consistent with contorl points
-
+//maxaccel dictates how fast robot can accelerate
     public static void main(String args[]){
         ArrayList<Waypoint> ControlPolygon = new ArrayList();
         ControlPolygon.add(new Waypoint(0,0,0));
