@@ -11,6 +11,8 @@ import static java.awt.Color.DARK_GRAY;
 public class GUI extends JFrame implements ActionListener,MouseListener{
 JLabel field;
 JTextField filein;
+JLabel width;
+JTextField widthInput;
 double xInput,yInput;
 JLabel filepath;
 JButton reset;
@@ -18,20 +20,24 @@ JLabel feedback;
 JLabel angInput;
 JLabel totalWaypoints;
 JButton export;
+JButton setWidth;
 JButton addWaypoint;
 JTextField angleInput;
 double pixelsPerInchY = 740 / 12.0 / 27;
 double pixelsPerInchX = 1490 / 12.0 / 54;
 ArrayList<Waypoint> waypoints = new ArrayList();
-Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
+Trajectory test = new Trajectory(3*12,waypoints,10*12,3,"Testpath",0.05);
     public GUI(){
         super("Trajectory Planner");
         setSize(1700,740);
         setVisible(true);
+        setWidth = new JButton("Set width");
         SpringLayout layout = new SpringLayout();
         setLayout(layout);
         ImageIcon icon = new ImageIcon("SteamworksField.png");
          field = new JLabel(icon);
+         widthInput = new JTextField(4);
+         width = new JLabel("Wheelbase width:");
          angInput = new JLabel("Angle in degrees: ");
          feedback = new JLabel();
          filein = new JTextField(10);
@@ -58,6 +64,7 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
         reset.addActionListener(this);
         addWaypoint.addActionListener(this);
         field.addMouseListener(this);
+        setWidth.addActionListener(this);
         layout.putConstraint(SpringLayout.WEST, field, 5, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.NORTH, field, 5, SpringLayout.NORTH, this);
         layout.putConstraint(SpringLayout.WEST, reset,1490 +15,SpringLayout.WEST, field);
@@ -152,12 +159,19 @@ Trajectory test = new Trajectory(3*12,waypoints,3,3,"Testpath",0.05);
             totalWaypoints.setText("Total waypoints: "+ test.Waypoints.size());
             test.Segments.clear();
             test.Generate();
+
             if(test.Segments.size() >= 1){
 
                 repaint();
 
                 //feedback.setText(String.valueOf(test.Segments.size()));
             }
+        }
+        if(evt.getSource() == setWidth){
+            test.wheelbase = Double.parseDouble(widthInput.getText());
+            test.Generate();
+            repaint();
+
         }
     }
     public static void main(String[] args){

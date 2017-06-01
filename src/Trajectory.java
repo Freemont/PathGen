@@ -10,7 +10,9 @@ import java.io.IOException;
 public class Trajectory {
     double Integral = 0;
     double IntegralLeft = 0;
+    int timecounter = 0;
     double IntegralRight = 0;
+    double finalSlowSpeed = 0.35;
     double currentvel = 0;
     ArrayList<Waypoint> Waypoints = new ArrayList();
     double maxvel;
@@ -62,8 +64,43 @@ public class Trajectory {
                             + Math.pow(Segments.get(scount).calculateRightSplinePositionY(t+1/SAMPLE_RATE) - Segments.get(scount).calculateRightSplinePositionY(t),2));// * 1/SAMPLE_RATE;
 
 
+                    if(scount == Segments.size() - 1){
 
-                    if(Integral >= maxvel * timedelta && maxvel <= currentvel){
+                        if(Integral >= timedelta*currentvel){
+                            if(Segments.get(scount).calculateCenterPositionX(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateCenterPositionX(t));
+                            writer.print(",");
+                            if(Segments.get(scount).calculateCenterPositionY(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateCenterPositionY(t));
+                            writer.print(",");
+                            if(Segments.get(scount).calculateLeftSplinePositionX(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateLeftSplinePositionX(t));
+                            writer.print(",");
+                            if(Segments.get(scount).calculateLeftSplinePositionY(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateLeftSplinePositionY(t));
+                            writer.print(",");
+                            if(Segments.get(scount).calculateRightSplinePositionX(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateRightSplinePositionX(t));
+                            writer.print(",");
+                            if(Segments.get(scount).calculateRightSplinePositionY(t) != Double.NaN)
+                                writer.print(Segments.get(scount).calculateRightSplinePositionY(t));
+                            writer.print(",");
+                            writer.print(IntegralLeft);
+                            writer.print(",");
+                            writer.print(IntegralRight);
+                            writer.print(",");
+                            writer.println(Segments.get(scount).calculateHeading(t));
+                            Integral = 0;
+                            if(currentvel > finalSlowSpeed * maxvel) {
+                                currentvel -= maxaccel* .25;
+                            }
+                            else{
+                                currentvel = maxvel * finalSlowSpeed;
+                            }
+
+                        }
+                    }
+                    else if(Integral >= maxvel * timedelta && maxvel <= currentvel){
                         if(Segments.get(scount).calculateCenterPositionX(t) != Double.NaN)
                             writer.print(Segments.get(scount).calculateCenterPositionX(t));
                         writer.print(",");
@@ -88,6 +125,7 @@ public class Trajectory {
                        writer.print(",");
                        writer.println(Segments.get(scount).calculateHeading(t));
                         Integral = 0;
+                        currentvel = maxvel;
 
 
 
@@ -95,6 +133,7 @@ public class Trajectory {
                     else{
                         if(currentvel == 0){
                             currentvel += maxvel * (maxaccel/maxvel);
+
                         }
                         if(Integral >= currentvel * timedelta){
                             if(Segments.get(scount).calculateCenterPositionX(t) != Double.NaN)
@@ -123,7 +162,7 @@ public class Trajectory {
                             Integral = 0;
                             currentvel += maxvel * (maxaccel/maxvel);
                         }
-
+                        timecounter++;
 
                     }
 
