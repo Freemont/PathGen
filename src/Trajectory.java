@@ -1,3 +1,5 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -16,6 +18,8 @@ public class Trajectory {
     String Filename;
     double wheelbase;
     double CurveSize = 1;
+    double pixelsPerInchX = 0;
+    double pixlesPerInchY = 0;
     final double SAMPLE_RATE = 1000.0; //Double for floating point math, number of integral samples per segment
     ArrayList<Segment> Segments = new ArrayList();
     double timedelta;
@@ -27,13 +31,14 @@ public class Trajectory {
         wheelbase = Wheelbase;
         timedelta = TimeDelta;
     }
-    public Trajectory(double Wheelbase, ArrayList Control,double maxvel, double maxaccel,String Filename,double TimeDelta, double CurveSize) {
+    public Trajectory(double Wheelbase, ArrayList Control,double maxvel, double maxaccel,String Filename,double TimeDelta, double ppiX,double ppiY) {
         Waypoints = Control;
         this.maxvel = maxvel;
         this.maxaccel = maxaccel;
         this.Filename = Filename;
         wheelbase = Wheelbase;
-        this.CurveSize = CurveSize;
+        pixelsPerInchX = ppiX;
+        pixlesPerInchY = ppiY;
         timedelta = TimeDelta;
     }
     void Generate(){
@@ -43,6 +48,7 @@ public class Trajectory {
 
         }
     }
+
     void toTextFile(){
         try{
             PrintWriter writer = new PrintWriter(Filename, "UTF-8");
