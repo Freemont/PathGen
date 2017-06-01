@@ -70,7 +70,6 @@ public class Segment {
 
     double calculateHeading(double time) {
 
-
     double deltaX = calculateLeftSplinePositionX(time) - calculateRightSplinePositionX(time);
     double deltaY = calculateLeftSplinePositionY(time) - calculateRightSplinePositionY(time);
     return  Math.atan2(deltaY,deltaX) * 180 / Math.PI -90;
