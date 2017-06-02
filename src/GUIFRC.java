@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import static java.awt.Color.DARK_GRAY;
 
-public class GUI extends JFrame implements ActionListener,MouseListener{
+public class GUIFRC extends JFrame implements ActionListener,MouseListener{
 JLabel field;
 JTextField filein;
 JLabel width;
@@ -23,18 +23,18 @@ JButton export;
 JButton setWidth;
 JButton addWaypoint;
 JTextField angleInput;
-double pixelsPerInchY = 1200 / 12.0 / 12;
-double pixelsPerInchX = 1200 / 12.0 / 12;
+double pixelsPerInchY = 1490 / 12.0 / 57;
+double pixelsPerInchX = 740 / 12.0 / 24;
 ArrayList<Waypoint> waypoints = new ArrayList();
-Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
-    public GUI(){
+Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
+    public GUIFRC(){
         super("Trajectory Planner");
-        setSize(1700,1200);
+        setSize(1700,750);
         setVisible(true);
         setWidth = new JButton("Remove Last Waypoint");
         SpringLayout layout = new SpringLayout();
         setLayout(layout);
-        ImageIcon icon = new ImageIcon("field.jpg");
+        ImageIcon icon = new ImageIcon("SteamworksField.png");
          field = new JLabel(icon);
          widthInput = new JTextField(4);
          width = new JLabel("Wheelbase width:");
@@ -126,10 +126,10 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
                 //g2.drawLine(t1.intValue(),t2.intValue(),t3.intValue(),t4.intValue());
                 g2.setColor(Color.GREEN);
                 g2.setStroke(new BasicStroke(2));
-                g2.drawLine(xin.intValue() + 10, yin.intValue() + 45, xin2.intValue() + 10, yin2.intValue() + 45);
+                g2.drawLine(xin.intValue() + 10, yin.intValue() + 39, xin2.intValue() + 10, yin2.intValue() + 39);
                 g2.setColor(Color.MAGENTA);
-                g2.drawLine(xin3.intValue() + 10, yin3.intValue() + 45, xin4.intValue() + 10, yin4.intValue() + 45);
-                g2.drawLine(xin5.intValue() + 10, yin5.intValue() + 45, xin6.intValue() + 10, yin6.intValue() + 45);
+                g2.drawLine(xin3.intValue() + 10, yin3.intValue() + 39, xin4.intValue() + 10, yin4.intValue() + 39);
+                g2.drawLine(xin5.intValue() + 10, yin5.intValue() + 39, xin6.intValue() + 10, yin6.intValue() + 39);
 
             }
         }
@@ -179,7 +179,7 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
         }
     }
     public static void main(String[] args){
-        GUI  gui = new GUI();
+        GUIFRC  gui = new GUIFRC();
             gui.setVisible(true);
 
     }
