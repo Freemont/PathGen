@@ -28,9 +28,9 @@ Trajectory t1 = new Trajectory(wheelbasewidth,WaypointsArrayList,MaxVel,MaxAccel
 #### Control Variables
 WheelbaseWidth - the width of your robot drivetrain (again, units dont matter- consistency does)  
 WaypointsArrayList - ArrayList containing the needed Waypoints  .
-MaxVel - The maximum velocity the**CENTER** of the robot will move at - leave yourself some margin as 
+MaxVel - The maximum velocity the **CENTER** of the robot will move at - leave yourself some margin as 
 the left and right wheels can independtly move faster than the set MaxVel.
-MaxAccel - The maximum velocity the**CENTER** of the robot will accelerate at to acheive the MaxVel.  
+MaxAccel - The maximum velocity the **CENTER** of the robot will accelerate at to acheive the MaxVel.  
 Filename - The name of the text file to be written to. (include .txt)  
 Time Delta - How often readouts will occur in the written path. 0.1 = readouts every 0.1 seconds.
 
@@ -42,7 +42,7 @@ At the time of writing this, the field image doesn't appear in the correct locat
 ## Using the GUI
 Again, very straightforward. Click somewhere on the field to point a location, and specify an angle in the box to the right. Click 'Add Waypoint' 
 to add the Waypoint to the control polygon. The trajectory will appear once two Waypoints have been added.
-To write to a text file, type the target name*without the .txt extension* and click To Text File! To change the tuneables
+To write to a text file, type the target name *without the .txt extension* and click To Text File! To change the tuneables
 (width,maxvel,maxaccel,timedelta), look no further than Line 29 of GUI.java
 
 
