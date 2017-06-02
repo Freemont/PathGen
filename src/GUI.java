@@ -31,10 +31,10 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
         super("Trajectory Planner");
         setSize(1700,1200);
         setVisible(true);
-        setWidth = new JButton("Set width");
+        setWidth = new JButton("Remove Last Waypoint");
         SpringLayout layout = new SpringLayout();
         setLayout(layout);
-        ImageIcon icon = new ImageIcon("field.jpg");
+        ImageIcon icon = new ImageIcon("SteamworksField.png");
          field = new JLabel(icon);
          widthInput = new JTextField(4);
          width = new JLabel("Wheelbase width:");
@@ -49,7 +49,7 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
          angleInput = new JTextField(10);
         reset.setVisible(true);
 
-        field.setBounds(0, 0, 1200, 1200);
+        field.setBounds(0, 0, 1490, 740);
         add(filepath);
         add(field);
         add(angInput);
@@ -60,6 +60,7 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
         add(addWaypoint);
         add(filein);
         add(export);
+        add(setWidth);
         export.addActionListener(this);
         reset.addActionListener(this);
         addWaypoint.addActionListener(this);
@@ -85,6 +86,8 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
         layout.putConstraint(SpringLayout.NORTH, filepath, 20, SpringLayout.NORTH, totalWaypoints);
         layout.putConstraint(SpringLayout.WEST, filein,1490 +15,SpringLayout.WEST, field);
         layout.putConstraint(SpringLayout.NORTH, filein, 15, SpringLayout.NORTH, filepath);
+        layout.putConstraint(SpringLayout.WEST, setWidth,1490 +15,SpringLayout.WEST, field);
+        layout.putConstraint(SpringLayout.NORTH, setWidth, 20, SpringLayout.NORTH, filein);
 
 
 
@@ -167,8 +170,9 @@ Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
                 //feedback.setText(String.valueOf(test.Segments.size()));
             }
         }
-        if(evt.getSource() == setWidth){
-            test.wheelbase = Double.parseDouble(widthInput.getText());
+        if(evt.getSource() == setWidth){ //recycled to remove last waypoint
+            test.Waypoints.remove(test.Waypoints.size()-1);
+            test.Segments.clear();
             test.Generate();
             repaint();
 

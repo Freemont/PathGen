@@ -18,7 +18,7 @@ public class PathGeneration {
         ControlPolygon.add(new Waypoint(45,60,-Math.PI/4));
         ControlPolygon.add(new Waypoint(60,40,-Math.PI/2));
         ControlPolygon.add(new Waypoint(60,10,-Math.PI / 2));
-        Trajectory t1 = new Trajectory(15,ControlPolygon,15,2,"Path1.txt",0.1);
+        Trajectory t1 = new Trajectory(15,ControlPolygon,10,5,"Path1.txt",0.1);
         t1.Generate();
         t1.toTextFile();
     }
