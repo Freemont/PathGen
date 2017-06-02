@@ -1,9 +1,15 @@
 # PathGeneration
 3rd degree spline curve generator, useable for generating autonomous robot paths for FTC or FRC,
 though it can feasibly used for any autonomous path generation with a little
-know how.
+know how.  
+FTC GUI:
+![](img/FTCPlanner.png)  
+FRC GUI:
+![](img/FRCPlanner.png)
+
+
 # Using the Generator
-There are two main classes, a GUI and a non GUI. The non GUI can be found
+There are three main classes, an FRC GUI, an FTC GUI and a non GUI. The non GUI can be found
 in PathGeneration.java. Useage is overly simple.
 ## Waypoints
 Waypoints can be added to the control Array List with a few parameters-X position, Y position, and angle. *_Units do not matter as long as your
@@ -43,6 +49,6 @@ At the time of writing this, the field image doesn't appear in the correct locat
 Again, very straightforward. Click somewhere on the field to point a location, and specify an angle in the box to the right. Click 'Add Waypoint' 
 to add the Waypoint to the control polygon. The trajectory will appear once two Waypoints have been added.
 To write to a text file, type the target name *without the .txt extension* and click To Text File! To change the tuneables
-(width,maxvel,maxaccel,timedelta), look no further than Line 29 of GUI.java
+(width,maxvel,maxaccel,timedelta), look no further than Line 29 of FTCGUI.java / FRCGUI.java
 
 
