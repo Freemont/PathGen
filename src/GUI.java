@@ -23,10 +23,10 @@ JButton export;
 JButton setWidth;
 JButton addWaypoint;
 JTextField angleInput;
-double pixelsPerInchY = 1200 / 12.0 / 12;
-double pixelsPerInchX = 1200 / 12.0 / 12;
+double pixelsPerInchY = 1490 / 12.0 / 54;
+double pixelsPerInchX = 740 / 12.0 / 27;
 ArrayList<Waypoint> waypoints = new ArrayList();
-Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
+Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
     public GUI(){
         super("Trajectory Planner");
         setSize(1700,1200);
