@@ -42,9 +42,10 @@ Time Delta - How often readouts will occur in the written path. 0.1 = readouts e
 
 # GUI
 The GUI facilitates viewing the designed path, but forewarning:  
-**IF THE PATH YOU NEED MUST BE ACCURATE TO WITHIN AN INCH, DO NOT USE THE GUI**.
-At the time of writing this, the field image doesn't appear in the correct location so there is a small error in where the waypoint is made versus where was clicked.
-(Less than 2 or 3 inches to the best of my knowledge)
+~**IF THE PATH YOU NEED MUST BE ACCURATE TO WITHIN AN INCH, DO NOT USE THE GUI**.
+At the time of writing this, the field image doesn't appear in the correct location so there is a small error in where the waypoint is made versus where was clicked.~
+EDIT: The bug appears to be linked to the Java Graphics plotting in the wrong position - this leads me to think the generated path is correct, while the plotted point may be slightly off on the GUI. Exporting to a text file should be fine. I experimentally figured out the graphing position is off by (-10,-38) pixels, so as a temporary solution the grapher has been moved to the "correct" location. Caution is still advised with the GUI, though I am confident that the path generated (a) will work and (b) corresponds to where you clicked.
+
 ## Using the GUI
 Again, very straightforward. Click somewhere on the field to point a location, and specify an angle in the box to the right. Click 'Add Waypoint' 
 to add the Waypoint to the control polygon. The trajectory will appear once two Waypoints have been added.
