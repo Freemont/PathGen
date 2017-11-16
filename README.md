@@ -2,6 +2,8 @@
 3rd degree spline curve generator, useable for generating autonomous robot paths for FTC or FRC,
 though it can feasibly used for any autonomous path generation with a little
 know how.  
+NOTE: BETTER TRAJECTORY CLASS VELOCITY PROFILES BROKEN, USE TRAJECTORY.JAVA.
+
 FTC GUI:
 ![](img/FTCPlanner.png)  
 FRC GUI:
