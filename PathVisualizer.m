@@ -1,14 +1,14 @@
 
-filename = 'Path1.txt';
+filename = 'MeatSpin.txt';
 
 clf('reset')
-delimiterIn = ',';
+delimiterIn = '\t';
 headerlinesIn = 0;
 A = importdata(filename,delimiterIn,headerlinesIn);
 
 tpr = 410;
 tpi = 102
-target = A(1,7);
+target = A(1,1);
 maxvel = 16
 speed = 1
 currentpos = 0;
@@ -47,7 +47,7 @@ dprev = 0;
 ppp = 0;
 ppd = 0;
 mlog = [];
-target2 = A(1,8);
+target2 = A(1,2);
 error2 =0;
 preverror2=0;
 lastpos2=0;
@@ -61,8 +61,8 @@ figure('units','normalized','outerposition',[0 0 1 1])
 load('pqfile.mat','maxfeedback','maxfeedback2');
 %maxfeedback = 0;
 for(k = 1:1:length(A))
-    target = A(k,7);
-    target2 = A(k,8);
+    target = A(k,1);
+    target2 = A(k,2);
    preverror = error;
    preverror2 = error2;
    pprev = perror;
@@ -162,9 +162,9 @@ xlabel('PID Simulated Motor Powers by time,right side');
 h3 = animatedline('Color','k','LineWidth',1);
 for k = 1:speed :length(A) -5
    
-    addpoints(h,A(k:k+speed,3),A(k:k+speed,4));
+   % addpoints(h,A(k:k+speed,3),A(k:k+speed,4));
    
-    addpoints(h1,A(k:k+speed,5),A(k:k+speed,6));
+  %  addpoints(h1,A(k:k+speed,5),A(k:k+speed,6));
    drawnow
    
     addpoints(h2,graph(2,k:k+speed),graph(1,k:k+speed));

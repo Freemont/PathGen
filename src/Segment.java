@@ -12,6 +12,7 @@ public class Segment {
     double dx[][] = new double[4][1];
     double dy[][] = new double[4][1];
     double size;
+    double pieceCount = 0;
 
     public Segment(Waypoint start, Waypoint finish, double wheelbase) {
         a = start;
@@ -40,7 +41,18 @@ public class Segment {
         differentiate(CoeffX, dx);
         differentiate(CoeffY, dy);
     }
+    double returnLength() {
+        double SAMPLE_RATE= 1000;
+        double sum = 0;
+        for (double t = 0; t < 1; t += 1 / SAMPLE_RATE) {
 
+
+            sum += Math.sqrt(Math.pow(this.calculateCenterPositionX(t + 1 / SAMPLE_RATE) - this.calculateCenterPositionX(t), 2)
+                    + Math.pow(this.calculateCenterPositionY(t + 1 / SAMPLE_RATE) - this.calculateCenterPositionY(t), 2));// * 1/SAMPLE_RATE;
+
+        }
+    return sum;
+    }
     //Segments are calculated with a parameter of t from 0 to 1. xC is the x coefficients and yC is the y coefficients (of the 3rd degree spline)
     double calculateRightSplinePositionX(double time) {
 
@@ -58,6 +70,29 @@ public class Segment {
     double calculateLeftSplinePositionY(double time) {
         return evaluateCubic(CoeffY, time) + size / 2.0 * evaluateQuadratic(dx, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
 
+    }
+    double calculateLeftDistance(double time, double time2) {
+        double ldist = 0;
+        for (double t = time; t <=time2; t += 1 / BetterTrajectory.SAMPLE_RATE){
+        ldist += Math.sqrt(Math.pow(this.calculateLeftSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionX(t), 2)
+                + Math.pow(this.calculateLeftSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionY(t), 2));// * 1/SAMPLE_RATE
+    }
+    return ldist;
+    }
+    double calculateRightDistance(double time, double time2) {
+        double rdist = 0;
+        for (double t = time; t<=time2; t += 1 / BetterTrajectory.SAMPLE_RATE);
+        {
+            rdist += Math.sqrt(Math.pow(this.calculateRightSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) -this.calculateRightSplinePositionX(t), 2)
+            +Math.pow(this.calculateRightSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateRightSplinePositionY(t), 2));
+
+        }
+    return rdist;
+    }
+
+    double calculateLeftDistanceTime(double time){
+        double dist = BetterTrajectory.maxvel * BetterTrajectory.timedelta;
+return 0;
     }
 
     double calculateCenterPositionX(double time) {

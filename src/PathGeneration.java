@@ -14,12 +14,15 @@ public class PathGeneration {
     //file WILL be overwritten if already exists, so be cautious
     public static void main(String args[]){
         ArrayList<Waypoint> ControlPolygon = new ArrayList();
-        ControlPolygon.add(new Waypoint(0,67,0));
-        ControlPolygon.add(new Waypoint(45,60,-Math.PI/4));
-        ControlPolygon.add(new Waypoint(60,40,-Math.PI/2));
-        ControlPolygon.add(new Waypoint(60,10,-Math.PI / 2));
-        Trajectory t1 = new Trajectory(15,ControlPolygon,10,5,"Path1.txt",0.1);
-        t1.Generate();
+        ControlPolygon.add(new Waypoint(0,60,0));
+        ControlPolygon.add(new Waypoint(50,70,0));
+        ControlPolygon.add(new Waypoint(15,40,0));
+        BetterTrajectory t1 = new BetterTrajectory(15,ControlPolygon,10,5,"kekd.txt",0.1);
+        t1.GenerateSplines();
+        t1.prepareTrajectory();
+
+
+
         t1.toTextFile();
     }
 

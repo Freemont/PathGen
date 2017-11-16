@@ -1,4 +1,4 @@
-filename = 'Path1.txt';
+filename = 'ValentinFirst.txt';
 
 clf('reset')
 delimiterIn = ',';
@@ -8,6 +8,6 @@ A = importdata(filename,delimiterIn,headerlinesIn);
 b= 13;
 plot(A(1:1:length(A),1),A(1:1:length(A),2));
 hold on;
-plot(A(1:1:length(A),3),A(1:1:length(A),4));
+%plot(A(1:1:length(A),3),A(1:1:length(A),4));
 hold on;
-plot(A(1:1:length(A),5),A(1:1:length(A),6));
+%plot(A(1:1:length(A),5),A(1:1:length(A),6));

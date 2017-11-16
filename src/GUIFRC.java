@@ -26,7 +26,7 @@ JTextField angleInput;
 double pixelsPerInchY = 1490 / 12.0 / 57;
 double pixelsPerInchX = 740 / 12.0 / 24;
 ArrayList<Waypoint> waypoints = new ArrayList();
-Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
+BetterTrajectory test = new BetterTrajectory(36,waypoints,10,3,"Testpath",0.05);
     public GUIFRC(){
         super("Trajectory Planner");
         setSize(1700,750);
@@ -125,6 +125,7 @@ Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
 
                 //g2.drawLine(t1.intValue(),t2.intValue(),t3.intValue(),t4.intValue());
                 g2.setColor(Color.GREEN);
+
                 g2.setStroke(new BasicStroke(2));
                 g2.drawLine(xin.intValue() + 10, yin.intValue() + 39, xin2.intValue() + 10, yin2.intValue() + 39);
                 g2.setColor(Color.MAGENTA);
@@ -161,7 +162,7 @@ Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
             feedback.setText("<html>Added Waypoint!<br>Click next waypoint location.</html>");
             totalWaypoints.setText("Total waypoints: "+ test.Waypoints.size());
             test.Segments.clear();
-            test.Generate();
+            test.GenerateSplines();
 
             if(test.Segments.size() >= 1){
 
@@ -173,7 +174,7 @@ Trajectory test = new Trajectory(36,waypoints,10,3,"Testpath",0.05);
         if(evt.getSource() == setWidth){ //recycled to remove last waypoint
             test.Waypoints.remove(test.Waypoints.size()-1);
             test.Segments.clear();
-            test.Generate();
+            test.GenerateSplines();
             repaint();
 
         }

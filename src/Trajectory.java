@@ -11,6 +11,11 @@ import java.io.IOException;
 public class Trajectory {
     double Integral = 0;
     double totalDistance = 0;
+    int count = 0;
+    double lvel = 0;
+    double rvel = 0;
+    double lpos = 0;
+    double rpos = 0;
     double runningSum = 0;
     double IntegralLeft = 0;
     double speedupDistance = 0;
@@ -62,10 +67,11 @@ public class Trajectory {
                 if(scount == 0){
 
                     for(int dist = 0; dist<Segments.size();dist++) {
-                        for (double time = 0; time < 1; time += 1 / SAMPLE_RATE) {
-                            totalDistance += Math.sqrt(Math.pow(Segments.get(dist).calculateCenterPositionX(time+1/SAMPLE_RATE) - Segments.get(dist).calculateCenterPositionX(time),2)
-                                    + Math.pow(Segments.get(dist).calculateCenterPositionY(time+1/SAMPLE_RATE) - Segments.get(dist).calculateCenterPositionY(time),2));// * 1/SAMPLE_RATE;
 
+                        for (double time = 0; time < 1; time += 1 / SAMPLE_RATE) {
+                            totalDistance += Math.sqrt(Math.pow (Segments.get(dist).calculateCenterPositionX(time+1/SAMPLE_RATE) - Segments.get(dist).calculateCenterPositionX(time),2)
+                                    + Math.pow(Segments.get(dist).calculateCenterPositionY(time+1/SAMPLE_RATE) - Segments.get(dist).calculateCenterPositionY(time),2));// * 1/SAMPLE_RATE;
+                        count++;
                         }
                     }
 
