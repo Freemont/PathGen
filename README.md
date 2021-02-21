@@ -3,7 +3,7 @@
 though it can feasibly used for any autonomous path generation with a little
 know how.  
 NOTE: BETTER TRAJECTORY CLASS VELOCITY PROFILES BROKEN, USE TRAJECTORY.JAVA.
-
+[Another note, outputs are kinda borked. Doesn't play nice with the processing power on phones so this project is somewhat incomplete as far as outputs to a robot  friendly format]
 FTC GUI:
 ![](img/FTCPlanner.png)  
 FRC GUI:
