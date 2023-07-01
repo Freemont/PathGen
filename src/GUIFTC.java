@@ -1,12 +1,10 @@
 /**
- * Created by Florent Astié on 5/31/2017.
+ * Created by Maddie Astié on 5/31/2017.
  */
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
-
-import static com.sun.glass.ui.Cursor.setVisible;
 import static java.awt.Color.DARK_GRAY;
 
 public class GUIFTC extends JFrame implements ActionListener,MouseListener{

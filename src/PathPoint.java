@@ -1,5 +1,5 @@
 /**
- * Created by Florent Astié on 6/17/2017.
+ * Created by Maddie Astié on 6/17/2017.
  */
 public class PathPoint {
     double ldist;

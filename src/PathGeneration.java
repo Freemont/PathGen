@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * Created by Florent Astié on 5/31/2017.
+ * Created by Maddie Astié on 5/31/2017.
  */
 public class PathGeneration {
 
