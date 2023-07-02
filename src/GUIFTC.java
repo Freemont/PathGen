@@ -25,7 +25,7 @@ public class GUIFTC extends JFrame implements ActionListener,MouseListener{
     double pixelsPerInchY = 1200 / 12.0 / 12.0;
     double pixelsPerInchX = 1200 / 12.0 / 12.0;
     ArrayList<Waypoint> waypoints = new ArrayList();
-    Trajectory test = new Trajectory(15,waypoints,10,3,"Testpath",0.05);
+    BetterTrajectory test = new BetterTrajectory(15,waypoints,10,3,"Testpath",0.05);
     public GUIFTC(){
         super("Trajectory Planner");
         setSize(1700,1200);
@@ -161,7 +161,7 @@ public class GUIFTC extends JFrame implements ActionListener,MouseListener{
             feedback.setText("<html>Added Waypoint!<br>Click next waypoint location.</html>");
             totalWaypoints.setText("Total waypoints: "+ test.Waypoints.size());
             test.Segments.clear();
-            test.Generate();
+            test.GenerateSplines();
 
             if(test.Segments.size() >= 1){
 
@@ -173,7 +173,7 @@ public class GUIFTC extends JFrame implements ActionListener,MouseListener{
         if(evt.getSource() == setWidth){ //recycled to remove last waypoint
             test.Waypoints.remove(test.Waypoints.size()-1);
             test.Segments.clear();
-            test.Generate();
+            test.GenerateSplines();
             repaint();
 
         }
