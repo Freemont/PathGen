@@ -8,7 +8,7 @@ public class PathPoint {
     double rvel;
     double laccel;
     double raccel;
-    double t;
+    double time;
     double heading;
     public PathPoint(double leftdist, double rightdist, double leftvel, double rightvel,double leftaccel, double rightaccel, int heading, double time){
         ldist = leftdist;
@@ -17,12 +17,12 @@ public class PathPoint {
         rvel = rightvel;
         laccel = leftaccel;
         raccel = rightaccel;
-        heading = heading;
-        t = time;
+        this.heading = heading;
+        this.time = time;
     }
     void printLine(){
 
-        System.out.println(ldist + "," + rdist + "," + lvel +"," + rvel + "," + laccel+ "," + raccel + "," + heading + "," + t );
+        System.out.println(ldist + "," + rdist + "," + lvel +"," + rvel + "," + laccel+ "," + raccel + "," + heading + "," + time );
 
     }
 }

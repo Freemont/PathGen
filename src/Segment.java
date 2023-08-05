@@ -41,6 +41,38 @@ public class Segment {
         differentiate(CoeffX, dx);
         differentiate(CoeffY, dy);
     }
+
+
+    //return the associated T value with a given distance, return -1 if runs into the end of a segment
+
+    double reverseEngineerT(double distance, double t1, double outside){
+        double precision = 0.003; //only accept t if within this range of the true distance
+        double distance_guess = 0;
+        while(true) {
+            double delta = (1 - t1) / 2;
+            double guess = t1 + delta;
+            if(outside ==0){
+                 distance_guess = calculateLeftDistance(t1, guess);
+            }
+            else{
+                 distance_guess = calculateRightDistance(t1, guess);
+            }
+
+            if (distance_guess > distance - precision && distance_guess < distance + precision) {
+                return guess;
+            } else if(delta < precision/2) {
+               return -1;
+            } else {
+                delta /= 2;
+                if (distance > distance_guess) {
+                    guess += delta;
+                } else {
+                    guess -= delta;
+                }
+            }
+        }
+    }
+
     double returnLength() {
         double SAMPLE_RATE= 1000;
         double sum = 0;
@@ -54,34 +86,34 @@ public class Segment {
     return sum;
     }
     //Segments are calculated with a parameter of t from 0 to 1. xC is the x coefficients and yC is the y coefficients (of the 3rd degree spline)
-    double calculateRightSplinePositionX(double time) {
+    double calculateRightSplinePositionX(double t) {
 
-        return evaluateCubic(CoeffX, time) + size / 2.0 * evaluateQuadratic(dy, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+        return evaluateCubic(CoeffX, t) + size / 2.0 * evaluateQuadratic(dy, t) / Math.sqrt(Math.pow(evaluateQuadratic(dx, t), 2) + Math.pow(evaluateQuadratic(dy, t), 2));
     }
 
-    double calculateRightSplinePositionY(double time) {
-        return evaluateCubic(CoeffY, time) - size / 2.0 * evaluateQuadratic(dx, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+    double calculateRightSplinePositionY(double t) {
+        return evaluateCubic(CoeffY, t) - size / 2.0 * evaluateQuadratic(dx, t) / Math.sqrt(Math.pow(evaluateQuadratic(dx, t), 2) + Math.pow(evaluateQuadratic(dy, t), 2));
     }
 
-    double calculateLeftSplinePositionX(double time) {
-        return evaluateCubic(CoeffX, time) - size / 2.0 * evaluateQuadratic(dy, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+    double calculateLeftSplinePositionX(double t) {
+        return evaluateCubic(CoeffX, t) - size / 2.0 * evaluateQuadratic(dy, t) / Math.sqrt(Math.pow(evaluateQuadratic(dx, t), 2) + Math.pow(evaluateQuadratic(dy, t), 2));
     }
 
-    double calculateLeftSplinePositionY(double time) {
-        return evaluateCubic(CoeffY, time) + size / 2.0 * evaluateQuadratic(dx, time) / Math.sqrt(Math.pow(evaluateQuadratic(dx, time), 2) + Math.pow(evaluateQuadratic(dy, time), 2));
+    double calculateLeftSplinePositionY(double t) {
+        return evaluateCubic(CoeffY, t) + size / 2.0 * evaluateQuadratic(dx, t) / Math.sqrt(Math.pow(evaluateQuadratic(dx, t), 2) + Math.pow(evaluateQuadratic(dy, t), 2));
 
     }
-    double calculateLeftDistance(double time, double time2) {
+    double calculateLeftDistance(double t1, double t2) {
         double ldist = 0;
-        for (double t = time; t <=time2; t += 1 / BetterTrajectory.SAMPLE_RATE){
+        for (double t = t1; t <= t2; t += 1 / BetterTrajectory.SAMPLE_RATE){
         ldist += Math.sqrt(Math.pow(this.calculateLeftSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionX(t), 2)
                 + Math.pow(this.calculateLeftSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionY(t), 2));// * 1/SAMPLE_RATE
     }
     return ldist;
     }
-    double calculateRightDistance(double time, double time2) {
+    double calculateRightDistance(double t1, double t2) {
         double rdist = 0;
-        for (double t = time; t<=time2; t += 1 / BetterTrajectory.SAMPLE_RATE);
+        for (double t = t1; t<=t2; t += 1 / BetterTrajectory.SAMPLE_RATE);
         {
             rdist += Math.sqrt(Math.pow(this.calculateRightSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) -this.calculateRightSplinePositionX(t), 2)
             +Math.pow(this.calculateRightSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateRightSplinePositionY(t), 2));
