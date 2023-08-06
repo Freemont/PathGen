@@ -175,6 +175,47 @@ public class BetterTrajectory {
 
             else{//LEFT WHEEL OUTSIDE
 
+                //Calculate the left wheel velocity if velocity is not already maxed out
+                if(LCV < maxvel){
+                    if(LCV + maxaccel > maxvel){
+                        LCV = maxvel;
+                    }
+                    else{
+                        LCV += maxaccel;
+                    }
+                }
+
+                //Calculating the left wheel distance using a Kinematics equation: d = v*t + 0.5*a*t^2
+                ldist = LCV* timedelta + 0.5 * maxaccel* timedelta *timedelta;
+
+                //Brute force the t value associated with the distance calculated by repetitively guessing.
+                t_temp =  current.reverseEngineerT(ldist, t, outside);
+                t_temp2 = 0;
+
+                //Calculating the right wheel distance as it is the "inside" wheel
+                //If t_temp is < 0 (essentially -1), then we are going to go beyond the current segment and need to calculate the time in the next segment as well to fully complete the distance traveled (ldist)
+                if(t_temp < 0 && seg < Segments.size()-1) {
+                    t_temp2 = Segments.get(seg + 1).reverseEngineerT(ldist - current.calculateLeftDistance(t, 1), 0, outside);
+                    rdist += current.calculateRightDistance(t, 1) + Segments.get(seg + 1).calculateRightDistance(0, t_temp2); //This is where t_temp2 it is the time in the next segment for the wheel and is used to find the distance for the wheel in the second segment
+                }else{
+                    //If t_temp is > 0, then we are going to stay in the current segment and just calculate the distance traveled in the current segment
+                    rdist += current.calculateRightDistance(t,t_temp);
+                }
+
+                //Updating t for the next for loop iteration
+                t += t_temp + t_temp2; //t_temp2 is to find the time in the next segment corresponding to the remaining distance / distance traveled in the next segment
+                if(t > 1) t-=1; //remove 1 if we are into the next segment
+                //Updating the cumulative distances (LCD and RCD) as they are accumulators
+                LCD += ldist;
+                RCD += rdist;
+
+
+                //Calculating the right wheel velocity using a Kinematics equation: d= (vi + vf)/2 * t and updating the cumulative velocity (RCV)
+                RCV = rdist*2/timedelta - RCV;
+
+                //Adding the data for that trajectory point to the list
+                traj.add(new PathPoint(LCD, RCD, LCV, RCV, 0, 0, 0, time));
+
             }
         }
         //backwards
