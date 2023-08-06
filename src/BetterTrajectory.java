@@ -146,7 +146,7 @@ public class BetterTrajectory {
                 RCD += rdist;
                 LCD += ldist;
                 LCV = ldist*2/timedelta - LCV;
-
+                traj.add(new PathPoint(LCD, RCD, LCV, RCV, 0, 0, 0, time));
             }
 
             else{//LEFT WHEEL OUTSIDE
