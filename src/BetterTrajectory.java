@@ -110,8 +110,6 @@ public class BetterTrajectory {
         double LCV = 0; //left cumulative velocity
         double ldist;
         double rdist;
-        double lvel;
-        double rvel;
         //double laccel = 0; IF NEEDED
         //double raccel = 0; IF NEEDED
         // OPTIONAL double heading = 0;
