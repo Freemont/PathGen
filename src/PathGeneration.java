@@ -15,16 +15,12 @@ public class PathGeneration {
     public static void main(String args[]){
         ArrayList<Waypoint> ControlPolygon = new ArrayList();
         ControlPolygon.add(new Waypoint(0,60,0));
-        ControlPolygon.add(new Waypoint(50,70,0));
+        ControlPolygon.add(new Waypoint(50,60,0));
         ControlPolygon.add(new Waypoint(100,60,0));
         BetterTrajectory t1 = new BetterTrajectory(15,ControlPolygon,10,5,"kekd.txt",0.1);
         t1.GenerateSplines();
         t1.prepareTrajectory();
         t1.saveLCVRCVToCSV("lel");
-
-
-
-        t1.toTextFile();
     }
 
 }

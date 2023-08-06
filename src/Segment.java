@@ -48,10 +48,10 @@ public class Segment {
     double reverseEngineerT(double distance, double t1, double outside){
         double precision = 0.003; //only accept t if within this range of the true distance
         double distance_guess = 0;
+        double delta = (1 - t1) / 2; //The amount to change t1 by each time (also the initial interval value between t1 and the current guess)
+        double guess = t1 + delta; //Calculating the new guess value for t
 
         while(true) {
-            double delta = (1 - t1) / 2; //The amount to change t1 by each time (also the initial interval value between t1 and the current guess)
-            double guess = t1 + delta; //Calculating the new guess value for t
 
             //Determining the distance traveled by the wheel (whichever one is outside)  from t1 to the current guess value
             if(outside ==0){
@@ -64,7 +64,7 @@ public class Segment {
             //If the distance guess is within the acceptable range, return the guess as the approximate t value
             if (distance_guess > distance - precision && distance_guess < distance + precision) {
                 return guess;
-            } else if(delta < precision/2) {
+            } else if(guess > 0.999) {
                 //If delta becomes smaller than half of the precision value, then return saying it couldn't find an acceptable t value
                return -1;
             } else {
@@ -99,18 +99,18 @@ public class Segment {
     }
     double calculateLeftDistance(double t1, double t2) {
         double ldist = 0;
-        for (double t = t1; t <= t2; t += (1 / BetterTrajectory.SAMPLE_RATE)){
-        ldist += Math.sqrt(Math.pow(this.calculateLeftSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionX(t), 2)
-                + Math.pow(this.calculateLeftSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionY(t), 2));// * 1/SAMPLE_RATE
+        for (double t = t1; t <= t2; t += 1 / 20000.0){
+        ldist += Math.sqrt(Math.pow(this.calculateLeftSplinePositionX(t + 1 / 20000.0) - this.calculateLeftSplinePositionX(t), 2)
+                + Math.pow(this.calculateLeftSplinePositionY(t + 1 / 20000.0) - this.calculateLeftSplinePositionY(t), 2));// * 1/SAMPLE_RATE
     }
     return ldist;
     }
     double calculateRightDistance(double t1, double t2) {
         double rdist = 0;
-        for (double t = t1; t<=t2; t += 1 / BetterTrajectory.SAMPLE_RATE);
+        for (double t = t1; t<=t2; t += 1 / 20000.0)
         {
-            rdist += Math.sqrt(Math.pow(this.calculateRightSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) -this.calculateRightSplinePositionX(t), 2)
-            +Math.pow(this.calculateRightSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateRightSplinePositionY(t), 2));
+            rdist += Math.sqrt(Math.pow(this.calculateRightSplinePositionX(t + 1 / 20000.0) -this.calculateRightSplinePositionX(t), 2)
+            +Math.pow(this.calculateRightSplinePositionY(t + 1 / 20000.0) - this.calculateRightSplinePositionY(t), 2));
 
         }
     return rdist;
