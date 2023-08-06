@@ -219,11 +219,26 @@ public class BetterTrajectory {
             }
         }
         //backwards
-
-
     }
-    void positionToCSV(int wheelchoice, String filename){}
-    void velocityToCSV(int wheelchoice, String filename){}
+    public void saveLCVRCVToCSV(String filename){
+        try {
+            FileWriter fileWriter = new FileWriter(filename);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+
+            printWriter.println("LCV,RCV"); //CSV Header column names
+
+            for(PathPoint point : traj) { //Writing the LCV and RCV Values as CSV Rows
+                printWriter.println(point.LCV + "," + point.RCV);
+            }
+
+            printWriter.close();
+            System.out.println("LCV and RCV data saved to " + filename + " successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error while saving LCV and RCV data to " + filename + ".");
+        }
+    }
+
     public void toTextFile() {
         for (int x = 0; x < traj.size(); x++) {
             traj.get(x).printLine();
