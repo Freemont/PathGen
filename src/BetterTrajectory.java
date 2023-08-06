@@ -59,20 +59,25 @@ public class BetterTrajectory {
     int determineOutside(double t, int currentCount){
         double ldist = 0;
         double rdist = 0;
-        Segment current = Segments.get(currentCount);
+        Segment current = Segments.get(currentCount); //see which segment we're on
+
+        //Check if the current time + one SAMPLE_RATE (in the future) is greater than the time it takes to complete the segment (1)
         if(t + 1/SAMPLE_RATE >=1){
             if(currentCount == Segments.size()-1 ){
+                //If this is the last segment, calculate the distances from t to the end (1)
                 ldist = Math.sqrt(Math.pow(current.calculateLeftSplinePositionX(1) - current.calculateLeftSplinePositionX(t), 2)
                         + Math.pow(current.calculateLeftSplinePositionY(1) - current.calculateLeftSplinePositionY(t), 2));
                 rdist = Math.sqrt(Math.pow(current.calculateRightSplinePositionX(1) - current.calculateRightSplinePositionX(t), 2)
                         + Math.pow(current.calculateRightSplinePositionY(1) - current.calculateRightSplinePositionY(t), 2));
             }
             else{
+                //If this is not the last segment, calculate the distances from t to the end (1) and from the beginning (0) to t (this is due to us going 1 sample rate into the future and needing to correctly see the total distance from the start to the end of the interval)
                 ldist = Math.sqrt(Math.pow(current.calculateLeftSplinePositionX(1) - current.calculateLeftSplinePositionX(t), 2)
                         + Math.pow(current.calculateLeftSplinePositionY(1) - current.calculateLeftSplinePositionY(t), 2));
                 rdist = Math.sqrt(Math.pow(current.calculateRightSplinePositionX(1) - current.calculateRightSplinePositionX(t), 2)
                         + Math.pow(current.calculateRightSplinePositionY(1) - current.calculateRightSplinePositionY(t), 2));
 
+                //This is just calculating the distances in the next segment in our time interval from 0 to 1-t (so we get the full distance)
                 Segment next = Segments.get(currentCount+1);
                 ldist += Math.sqrt(Math.pow(next.calculateLeftSplinePositionX(1-t) - next.calculateLeftSplinePositionX(0), 2)
                         + Math.pow(next.calculateLeftSplinePositionY(1-t) - next.calculateLeftSplinePositionY(0), 2));
@@ -82,12 +87,14 @@ public class BetterTrajectory {
 
         }
         else{
+            //If we are not going to be at the end of a segment going one SAMPLE_RATE into the future, just calculate the distance from t to t+1/SAMPLE_RATE (this is our interval)
             ldist = Math.sqrt(Math.pow(current.calculateLeftSplinePositionX(t + 1 / SAMPLE_RATE) - current.calculateLeftSplinePositionX(t), 2)
                     + Math.pow(current.calculateLeftSplinePositionY(t + 1 / SAMPLE_RATE) - current.calculateLeftSplinePositionY(t), 2));
             rdist = Math.sqrt(Math.pow(current.calculateRightSplinePositionX(t + 1 / SAMPLE_RATE) - current.calculateRightSplinePositionX(t), 2)
                     + Math.pow(current.calculateRightSplinePositionY(t + 1 / SAMPLE_RATE) - current.calculateRightSplinePositionY(t), 2));
         }
 
+        //Comparing to see which wheel is the outside wheel and appropriately setting the value to either 0 or 1 (even if they wheels are going in a straight line, setting one or the other as the outside wheel will be OK)
         if (rdist > ldist){
             return 1;
         }
