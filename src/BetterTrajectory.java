@@ -228,7 +228,7 @@ public class BetterTrajectory {
             printWriter.println("LCV,RCV"); //CSV Header column names
 
             for(PathPoint point : traj) { //Writing the LCV and RCV Values as CSV Rows
-                printWriter.println(point.LCV + "," + point.RCV);
+                printWriter.println(point.lvel + "," + point.rvel); //It is lvel and rvel because there is a velocity at that specific point, not a cumulative velocity
             }
 
             printWriter.close();
