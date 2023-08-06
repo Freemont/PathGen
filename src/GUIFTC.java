@@ -146,10 +146,9 @@ public class GUIFTC extends JFrame implements ActionListener,MouseListener{
             repaint();
         }
         if(evt.getSource()==export){
-            test.Filename = filein.getText() + ".txt";
 
-            test.toTextFile();
-            filein.setText("");
+            test.prepareTrajectory();
+            test.saveLCVRCVToCSV("test");
             feedback.setText("Wrote path to text file.");
             test.Waypoints.clear();
             test.Segments.clear();

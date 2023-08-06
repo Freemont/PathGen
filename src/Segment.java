@@ -99,7 +99,7 @@ public class Segment {
     }
     double calculateLeftDistance(double t1, double t2) {
         double ldist = 0;
-        for (double t = t1; t <= t2; t += 1 / BetterTrajectory.SAMPLE_RATE){
+        for (double t = t1; t <= t2; t += (1 / BetterTrajectory.SAMPLE_RATE)){
         ldist += Math.sqrt(Math.pow(this.calculateLeftSplinePositionX(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionX(t), 2)
                 + Math.pow(this.calculateLeftSplinePositionY(t + 1 / BetterTrajectory.SAMPLE_RATE) - this.calculateLeftSplinePositionY(t), 2));// * 1/SAMPLE_RATE
     }

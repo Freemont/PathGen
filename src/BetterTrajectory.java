@@ -222,7 +222,7 @@ public class BetterTrajectory {
     }
     public void saveLCVRCVToCSV(String filename){
         try {
-            FileWriter fileWriter = new FileWriter(filename);
+            FileWriter fileWriter = new FileWriter(filename + ".csv");
             PrintWriter printWriter = new PrintWriter(fileWriter);
 
             printWriter.println("LCV,RCV"); //CSV Header column names
