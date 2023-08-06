@@ -132,7 +132,7 @@ public class BetterTrajectory {
             ldist = 0;
             if(outside == 1){ //RIGHT WHEEL OUTSIDE
 
-                //Calculate the right wheel velocity
+                //Calculate the right wheel velocity if velocity is not already maxed out
                 if(RCV < maxvel){
                     if(RCV + maxaccel > maxvel){
                         RCV = maxvel;
@@ -145,7 +145,7 @@ public class BetterTrajectory {
                 //Calculating the right wheel distance using a Kinematics equation: d = v*t + 0.5*a*t^2
                 rdist = RCV* timedelta + 0.5 * maxaccel* timedelta *timedelta;
 
-                //Finding and setting the acceptable t value for the inside wheel (in this case, the left wheel)
+                //Brute force the t value associated with the distance calculated by repetitively guessing.
                 t_temp =  current.reverseEngineerT(rdist, t, outside);
                 t_temp2 = 0;
 
@@ -161,12 +161,12 @@ public class BetterTrajectory {
 
                 //Updating t for the next for loop iteration
                 t += t_temp + t_temp2; //t_temp2 is to find the time in the next segment corresponding to the remaining distance / distance traveled in the next segment
-
+                if(t > 1) t-=1; //remove 1 if we are into the next segment
                 //Updating the cumulative distances (RCD and LCD) as they are accumulators
                 RCD += rdist;
                 LCD += ldist;
 
-                //Calculating the left wheel velocity using a Kinematics equation: v = a*t and updating the cumulative velocity (LCV)
+                //Calculating the left wheel velocity using a Kinematics equation: d= (vi + vf)/2 * t and updating the cumulative velocity (LCV)
                 LCV = ldist*2/timedelta - LCV;
 
                 //Adding the data for that trajectory point to the list
