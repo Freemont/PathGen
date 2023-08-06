@@ -119,17 +119,20 @@ public class BetterTrajectory {
         int outside;
         double t_temp2;
         // fill in cheesy poof serialization method
+
+        //adding the initial / start path point with zero for all values
         traj.add(new PathPoint(0, 0, 0, 0, 0, 0, 0, 0));
 
-        //forwards
+        //Calculating the trajectory points for each segment going forward
         for (int seg = 0; seg < Segments.size(); seg++) {
-            Segment current = Segments.get(seg);//run through the spline segments 1 by 1
-            time += timedelta; //increment by time increment for PID controller
-            outside = determineOutside(t, seg);
+            Segment current = Segments.get(seg);//run through the spline segments 1 by 1 (this is getting the current segment we will be "working" on)
+            time += timedelta; //Incrementing by a time increment for PID controller
+            outside = determineOutside(t, seg); //Determining which wheel is the outside wheel for this time interval inside the segment
             rdist = 0;
             ldist = 0;
             if(outside == 1){ //RIGHT WHEEL OUTSIDE
 
+                //Calculate the right wheel velocity
                 if(RCV < maxvel){
                     if(RCV + maxaccel > maxvel){
                         RCV = maxvel;
@@ -138,19 +141,35 @@ public class BetterTrajectory {
                         RCV += maxaccel;
                     }
                 }
+
+                //Calculating the right wheel distance using a Kinematics equation: d = v*t + 0.5*a*t^2
                 rdist = RCV* timedelta + 0.5 * maxaccel* timedelta *timedelta;
+
+                //Finding and setting the acceptable t value for the inside wheel (in this case, the left wheel)
                 t_temp =  current.reverseEngineerT(rdist, t, outside);
                 t_temp2 = 0;
+
+                //Calculating the left wheel distance as it is the "inside" wheel
+                //If t_temp is < 0 (essentially -1), then we are going to go beyond the current segment and need to calculate the time in the next segment as well to fully complete the distance traveled (rdist)
                 if(t_temp < 0 && seg < Segments.size()-1) {
                     t_temp2 = Segments.get(seg + 1).reverseEngineerT(rdist - current.calculateRightDistance(t, 1), 0, outside);
-                    ldist += current.calculateLeftDistance(t, 1) + Segments.get(seg + 1).calculateLeftDistance(0, t_temp2);
+                    ldist += current.calculateLeftDistance(t, 1) + Segments.get(seg + 1).calculateLeftDistance(0, t_temp2); //This is where t_temp2 it is the time in the next segment for the wheel and is used to find the distance for the wheel in the second segment
                 }else{
+                    //If t_temp is > 0, then we are going to stay in the current segment and just calculate the distance traveled in the current segment
                     ldist += current.calculateLeftDistance(t,t_temp);
                 }
-                t += t_temp + t_temp2;
+
+                //Updating t for the next for loop iteration
+                t += t_temp + t_temp2; //t_temp2 is to find the time in the next segment corresponding to the remaining distance / distance traveled in the next segment
+
+                //Updating the cumulative distances (RCD and LCD) as they are accumulators
                 RCD += rdist;
                 LCD += ldist;
+
+                //Calculating the left wheel velocity using a Kinematics equation: v = a*t and updating the cumulative velocity (LCV)
                 LCV = ldist*2/timedelta - LCV;
+
+                //Adding the data for that trajectory point to the list
                 traj.add(new PathPoint(LCD, RCD, LCV, RCV, 0, 0, 0, time));
             }
 

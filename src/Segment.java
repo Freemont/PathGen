@@ -48,9 +48,12 @@ public class Segment {
     double reverseEngineerT(double distance, double t1, double outside){
         double precision = 0.003; //only accept t if within this range of the true distance
         double distance_guess = 0;
+
         while(true) {
-            double delta = (1 - t1) / 2;
-            double guess = t1 + delta;
+            double delta = (1 - t1) / 2; //The amount to change t1 by each time (also the initial interval value between t1 and the current guess)
+            double guess = t1 + delta; //Calculating the new guess value for t
+
+            //Determining the distance traveled by the wheel (whichever one is outside)  from t1 to the current guess value
             if(outside ==0){
                  distance_guess = calculateLeftDistance(t1, guess);
             }
@@ -58,11 +61,14 @@ public class Segment {
                  distance_guess = calculateRightDistance(t1, guess);
             }
 
+            //If the distance guess is within the acceptable range, return the guess as the approximate t value
             if (distance_guess > distance - precision && distance_guess < distance + precision) {
                 return guess;
             } else if(delta < precision/2) {
+                //If delta becomes smaller than half of the precision value, then return saying it couldn't find an acceptable t value
                return -1;
             } else {
+                //Refine the guess value for t based on whether the distance is greater or smaller than distance_guess
                 delta /= 2;
                 if (distance > distance_guess) {
                     guess += delta;
