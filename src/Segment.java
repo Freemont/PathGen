@@ -73,18 +73,6 @@ public class Segment {
         }
     }
 
-    double returnLength() {
-        double SAMPLE_RATE= 1000;
-        double sum = 0;
-        for (double t = 0; t < 1; t += 1 / SAMPLE_RATE) {
-
-
-            sum += Math.sqrt(Math.pow(this.calculateCenterPositionX(t + 1 / SAMPLE_RATE) - this.calculateCenterPositionX(t), 2)
-                    + Math.pow(this.calculateCenterPositionY(t + 1 / SAMPLE_RATE) - this.calculateCenterPositionY(t), 2));// * 1/SAMPLE_RATE;
-
-        }
-    return sum;
-    }
     //Segments are calculated with a parameter of t from 0 to 1. xC is the x coefficients and yC is the y coefficients (of the 3rd degree spline)
     double calculateRightSplinePositionX(double t) {
 
@@ -122,10 +110,6 @@ public class Segment {
     return rdist;
     }
 
-    double calculateLeftDistanceTime(double time){
-        double dist = BetterTrajectory.maxvel * BetterTrajectory.timedelta;
-return 0;
-    }
 
     double calculateCenterPositionX(double time) {
         return evaluateCubic(CoeffX, time);

@@ -25,4 +25,7 @@ public class PathPoint {
         System.out.println(ldist + "," + rdist + "," + lvel +"," + rvel + "," + laccel+ "," + raccel + "," + heading + "," + time );
 
     }
+
+
+
 }

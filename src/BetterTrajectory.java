@@ -157,7 +157,8 @@ public class BetterTrajectory {
 
 
     }
-
+    void positionToCSV(int wheelchoice, String filename){}
+    void velocityToCSV(int wheelchoice, String filename){}
     public void toTextFile() {
         for (int x = 0; x < traj.size(); x++) {
             traj.get(x).printLine();
